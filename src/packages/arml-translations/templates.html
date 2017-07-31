@@ -1,0 +1,188 @@
+<template name="listFeatures">
+  <legend>Features</legend>
+  {{#each features }}
+    {{> featureItemClear}}
+  {{/each }}
+</template>
+
+<template name="listAnnotations">
+  <legend>Annotations</legend>
+  {{#each annotations }}
+    {{> annotationItemClear}}
+  {{/each }}
+</template>
+
+<template name="featureItem">
+  <table class="table table-bordered table-hover">
+    <tr>
+      <th>Language</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Edit</th>
+    </tr>
+    <tr>
+      <td>Suomi</td>
+      <td>{{name}}</td>
+      <td>{{description}}</td>
+      <td>Edit in admin section!</td>
+    </tr>
+    {{#each translations}}
+      {{> featureTranslation}}
+    {{/each}}
+  </table>
+  <a class="btn btn-default" href="/translations/create/{{_id}}" role="button">Add translation</a>
+</template>
+
+<template name="featureItemClear">
+    <div class="panel panel-primary featureItem" style="cursor: pointer">
+      <div class="panel-heading">
+        {{name}}
+      </div>
+      <div class="panel-body">
+        {{description}}
+      </div>
+    </div>
+</template>
+
+<template name="annotationItemClear">
+    <div class="panel panel-primary annotationItem" style="cursor: pointer">
+      <div class="panel-heading">
+        {{name}}
+      </div>
+      <div class="panel-body">
+        {{description}}
+      </div>
+    </div>
+</template>
+
+<template name="annotationItem">
+  <table class="table table-bordered table-hover">
+    <tr>
+      <th>Language</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Edit</th>
+    </tr>
+    <tr>
+      <td>Suomi</td>
+      <td>{{name}}</td>
+      <td>{{description}}</td>
+      <td>Edit in admin section!</td>
+    </tr>
+    {{#each translations}}
+      {{> annotationTranslation}}
+    {{/each}}
+  </table>
+  <a class="btn btn-default" href="/translations/create/{{_id}}" role="button">Add translation</a>
+</template>
+
+<template name="featureTranslation">
+  <tr>
+    <td>{{language}}</td>
+    <td>{{name}}</td>
+    <td>{{description}}</td>
+    <a class="btn btn-default" href="/translations/edit/{{original}}/{{_id}}" role="button">Edit {{language}} translation</a>
+  </tr>
+</template>
+
+<template name="annotationTranslation">
+  <tr>
+    <td>{{language}}</td>
+    <td>{{name}}</td>
+    <td>{{description}}</td>
+    <a class="btn btn-default" href="/translations/edit/{{original}}/{{_id}}" role="button">Edit {{language}} translation</a>
+  </tr>
+</template>
+
+<template name="translations">
+    {{> listFeatures}}
+</template>
+
+<template name="createTranslation">
+  {{#autoForm schema=translationAutoformSchema doc=this id="translationAutoform" type="method" meteormethod="autoformTranslationSubmit"}}
+  <fieldset>
+    <legend>Translate</legend>
+    {{> afQuickField name="original"}}
+    {{> afQuickField name="name"}}
+    {{> afQuickField name="description"}}
+    {{> afQuickField name="language" options=languages}}
+    <div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </fieldset>
+  {{/autoForm}}
+</template>
+
+<template name="editTranslation">
+  {{#autoForm schema=translationAutoformSchema doc=this.translation id="translationAutoform" type="method" meteormethod="translationUpdate"}}
+  <fieldset>
+    <legend>Translate</legend>
+    {{> afQuickField name="_id"}}
+    {{> afQuickField name="original"}}
+    {{> afQuickField name="name"}}
+    {{> afQuickField name="description"}}
+    {{> afQuickField name="language"}}
+    <div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="button" class="btn btn-danger deleteTranslation">Delete</button>
+    </div>
+  </fieldset>
+  {{/autoForm}}
+</template>
+
+<template name="featureTranslations">
+  <legend>Feature</legend>
+  <div class="panel panel-primary featureItem">
+    <div class="panel-heading">
+      {{this.feature.name}}
+    </div>
+    <div class="panel-body">
+      {{this.feature.description}}
+    </div>
+    <ul class="list-group">
+      {{#each this.translations}}
+        <a href="/translations/edit/{{original}}/{{_id}}" class="list-group-item"><b>{{language}}</b> | {{name}} | {{description}}</a>
+      {{/each}}
+    </ul>
+  </div>
+  <a class="btn btn-default" href="/translations/create/{{this.feature._id}}" role="button">Add translation</a>
+
+  <legend>Annotations</legend>
+  {{#each featureAnnotations this.feature._id}}
+    {{> annotationListItem}}
+  {{/each}}
+</template>
+
+<template name="annotationListItem">
+  <div class="panel panel-primary annotationItem">
+    <div class="panel-heading">
+      {{this.name}}
+    </div>
+    <div class="panel-body">
+      {{this.description}}
+    </div>
+    <ul class="list-group">
+      {{#each this.translations}}
+        <a href="/translations/edit/{{original}}/{{_id}}" class="list-group-item"><b>{{language}}</b> | {{name}} | {{description}}</a>
+      {{/each}}
+    </ul>
+  </div>
+  <a class="btn btn-default" href="/translations/create/{{_id}}" role="button">Add translation</a>
+</template>
+
+<template name="annotationTranslations">
+    <div class="panel panel-primary annotationItem">
+      <div class="panel-heading">
+        {{this.annotation.name}}
+      </div>
+      <div class="panel-body">
+        {{this.annotation.description}}
+      </div>
+      <ul class="list-group">
+        {{#each this.translations}}
+          <a href="/translations/edit/{{original}}/{{_id}}" class="list-group-item"><b>{{language}}</b> | {{name}} | {{description}}</a>
+        {{/each}}
+      </ul>
+    </div>
+    <a class="btn btn-default" href="/translations/create/{{this.annotation._id}}" role="button">Add translation</a>
+</template>

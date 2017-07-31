@@ -1,0 +1,120 @@
+<template name="WizardView">
+  {{> chooseApplication }}
+  {{> chooseTracker }}
+  {{> chooseTrackable }}
+  {{> chooseViewpoint }}
+  {{> chooseFeature }}
+</template>
+
+<template name="chooseApplication">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Application</div>
+    <div class="panel-body">
+      <select id="ApplicationSelect" class="form-control">
+        <option value="#">Select...</option>
+        {{#each applications }}
+          {{> applicationDropdownItem}}
+        {{/each }}
+      </select>
+      <a href="admin/applications/create" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+      </a>
+    </div>
+  </div>
+</template>
+
+<template name="applicationDropdownItem">
+  <option value="{{ _id }}">{{ name }}</option>
+</template>
+
+<template name="applicationDescription">
+  <div class="well well-sm">
+    jee
+  </div>
+</template>
+
+<template name="chooseTracker">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Tracker</div>
+    <div class="panel-body">
+      <select id="TrackerSelect" class="form-control">
+        <option value="#">Select...</option>
+        {{#each trackers }}
+          {{> trackerDropdownItem}}
+        {{/each }}
+      </select>
+      <a href="admin/trackers/create" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+      </a>
+    </div>
+  </div>
+</template>
+
+<template name="trackerDropdownItem">
+  <option value="{{ _id }}">{{ name }}</option>
+</template>
+
+<template name="chooseTrackable">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Trackable</div>
+    <div class="panel-body">
+      <select id="TrackableSelect" class="form-control">
+        <option value="#">Select...</option>
+        {{#each trackables }}
+          {{> trackableDropdownItem}}
+        {{/each }}
+      </select>
+      <a href="admin/trackables/create" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+      </a>
+    </div>
+  </div>
+</template>
+
+<template name="trackableDropdownItem">
+  <option value="{{ _id }}">{{ name }}</option>
+</template>
+
+<template name="chooseViewpoint">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Viewpoint</div>
+    <div class="panel-body">
+      <select id="ViewpointSelect" class="form-control">
+        <option value="#">Select...</option>
+        {{#each viewpoints }}
+          {{> viewpointDropdownItem}}
+        {{/each }}
+      </select>
+      <a href="admin/viewpoints/create" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+      </a>
+
+    </div>
+  </div>
+</template>
+
+<template name="viewpointDropdownItem">
+  <option value="{{ _id }}">{{ name }}</option>
+</template>
+
+
+<template name="chooseFeature">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Feature</div>
+    <div class="panel-body">
+      <select id="FeatureSelect" class="form-control">
+        <option value="#">Select...</option>
+        {{#each features }}
+          {{> featureDropdownItem}}
+        {{/each }}
+      </select>
+      <a href="admin/features/create" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+      </a>
+    </div>
+  </div>
+</template>
+
+<template name="featureDropdownItem">
+  <option value="{{ _id }}">{{ name }}</option>
+</template>

@@ -1,0 +1,11 @@
+#threeContainer {
+  min-height: 500px;
+}
+#threeEditor {
+  width: 100%;
+  height: 100%;
+}
+#threeBar {
+  position: absolute;
+  top: 0px;
+}

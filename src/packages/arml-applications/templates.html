@@ -1,0 +1,66 @@
+<template name="armlBootstrapSidebar">
+  <ul class="sidebar-nav orion-links">
+    <li class="sidebar-brand">
+      <a href="{{ options 'homePath' '/' }}">
+        {{ options 'siteName' 'Admin' }}
+      </a>
+    </li>
+    {{> ApplicationChooser}}
+    {{# each adminLinks }}
+      {{> armlBootstrapSidebarLink }}
+    {{/ each }}
+  </ul>
+</template>
+
+<template name="armlBootstrapSidebarLink">
+  {{# if childs }}
+    <li>
+      {{# if routeName }}
+        <a class="collapse-link-right" data-target="#admin-links-{{ identifier }}" data-toggle="collapse">
+          <span class="caret"></span>
+        </a>
+        <a href="{{ RouterLayerPathFor routeName }}">
+          {{ title }}
+        </a>
+      {{ else }}
+        <a data-target="#admin-links-{{ identifier }}" href="#" data-toggle="collapse">
+          {{ title }}
+          <span class="caret"></span>
+        </a>
+      {{/ if }}
+      <div class="collapse" id="admin-links-{{ identifier }}">
+        <ul class="child-links">
+          {{# each childs }}
+            {{> armlBootstrapSidebarLink }}
+          {{/ each }}
+        </ul>
+      </div>
+    </li>
+  {{ else }}
+    <li class="{{ RouterLayerIsActiveRoutePartial activeRouteRegex }}">
+      <a href="{{ RouterLayerPathFor routeName }}">{{ title }}</a>
+    </li>
+  {{/ if }}
+</template>
+
+<template name="armlBootstrapCollectionsIndex">
+  {{# Layout template="orionBootstrapMediumContentOffset" }}
+    {{# Layout template="orionBootstrapTitle" }}
+      {{ collection.title }}
+      {{# if collection.canShowCreate }}
+        <a href="{{ collection.createPath }}" class="btn btn-default btn-xs"><i class="fa fa-plus"></i></a>
+      {{/ if }}
+    {{/ Layout }}
+    {{# Layout template="orionBootstrapContentContainer" }}
+      {{# if collection.canIndex }}
+        {{# if showTable }}
+          {{> tabular table=collection.tabularTable selector=selector class="table index-table" id=collection.pluralName }}
+        {{/ if }}
+      {{/ if }}
+    {{/ Layout }}
+  {{/ Layout }}
+</template>
+
+<template name="UpdateApplication">
+  {{> quickForm collection="ARML.data.applications" doc=this id="updateApplicationForm" type="update"}}
+</template>

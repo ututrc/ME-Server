@@ -1,0 +1,61 @@
+<template name="ApiDoc">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Applications</h3>
+    </div>
+    <div class="panel-body">
+
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="list-group" id="select-application-list">
+            {{#each apiApplications}}
+              {{> apiApplicationItem}}
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Features</h3>
+    </div>
+    <div class="panel-body">
+
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="list-group" id="select-application-list">
+            {{#each apiFeatures}}
+              {{> apiFeatureItem}}
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<template name="apiApplicationItem">
+  <a href="/api/application/{{ _id }}" class="list-group-item">
+    <span class="badge"></span>
+      {{name}}
+  </a>
+</template>
+
+<template name="apiFeatureItem">
+  <a href="/api/feature/{{ _id }}" class="list-group-item">
+    <span class="badge"></span>
+      {{name}}
+  </a>
+</template>
+
+
+<template name="Import">
+  <form class="new-import">
+    <input type="text" name="arml" placeholder="Copy paste arml" />
+    <input type="submit" value="Do magic">
+  </form>
+</template>

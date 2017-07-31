@@ -1,0 +1,13 @@
+<template name="ApplicationChooser">
+  <li>
+    <select id="Applications_select" class="form-control">
+      {{#each applications }}
+        {{> applicationItem }}
+      {{/each}}
+    </select>
+  </li>
+</template>
+
+<template name="applicationItem">
+  <option value="{{ _id }}" {{selected}}>{{ name }}</option>
+</template>

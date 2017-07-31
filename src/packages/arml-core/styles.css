@@ -1,0 +1,19 @@
+/* CSS declarations go here */
+
+/*#login-dropdown-list .alert-danger {
+  display:none;
+}*/
+
+.gridcell {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.gridcell img {
+  max-width: 100%;
+  max-height: 150px;
+}
+
+.gridcell .panel-body {
+  min-height: 180px;
+}

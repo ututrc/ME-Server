@@ -1,0 +1,122 @@
+<template name="ThreeEditor">
+  <div class="row">
+    <div class="col-md-8" id="threeContainer">
+      <div id="threeEditor">
+        {{#if activeObject}}
+        <div class="btn-toolbar" id="threeBar" role="group">
+          <div class="btn-group" role="group">
+            <button class="btn btn-primary btn-sm" id="threeMove">
+              <span class="glyphicon glyphicon-move" aria-hidden="true"></span> Move</button>
+            <button class="btn btn-primary btn-sm"  id="threeRotate">
+              <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Rotate</button>
+            <button class="btn btn-primary btn-sm" id="threeScale">
+              <span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span> Scale</button>
+          </div>
+            <div class="btn-group" role="group">
+              <button class="btn btn-primary btn-sm" id="threeSpace">Origo</button>
+              <button class="btn btn-primary btn-sm" id="threeSnap">Snapping</button>
+            </div>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div id="SceneInspector">
+
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#feature" aria-controls="feature" role="tab" data-toggle="tab" class="modeSelector">Feature</a></li>
+          <li role="presentation"><a href="#assets" aria-controls="assets" role="tab" data-toggle="tab" class="modeSelector">Assets</a></li>
+          {{#if activeObject}}
+          <li role="presentation"><a href="#annotations" aria-controls="annotations" role="tab" data-toggle="tab" class="modeSelector">Annotations</a></li>
+          {{/if}}
+        </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="feature">
+              <h3>Statistics</h3>
+              <ul>
+                {{#with featureInformation}}
+                <li>Assets: {{featureassets}}</li>
+                <li>Annotations: {{annotations}}</li>
+                {{/with}}
+              </ul>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="assets">
+              <div class="list-group">
+                {{#each currentFeatureAssets }}
+                  {{> FeatureAssetListItem}}
+                {{/each}}
+              </div>
+              {{ > CreateFeatureAsset }}
+            </div>
+            {{#if activeObject}}
+            <div role="tabpanel" class="tab-pane" id="annotations">
+              <div class="list-group">
+              {{#each currentAnnotations}}
+                {{> AnnotationListItem}}
+              {{/each}}
+              </div>
+            </div>
+            {{/if}}
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      {{#if editModeIs "feature"}}
+        {{#with currentFeature}}
+          {{> quickForm collection="ARML.data.features" doc=this id=this._id type="update" fields="name, description, tags"}}
+        {{/with}}
+      {{/if}}
+      {{#if editModeIs "annotation"}}
+        {{#with activeAnnotationObject}}
+          {{> AnnotationEditor}}
+        {{/with}}
+      {{/if}}
+      {{#if editModeIs "featureasset"}}
+        {{#with activeFeatureAsset}}
+          {{> FeatureAssetEditor}}
+        {{/with}}
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="FeatureAssetListItem">
+  <a href="#" data-id={{_id}} class="list-group-item activeElementSelector {{#if active}}active{{/if}}">{{name}} ({{assetname}})</a>
+</template>
+
+<template name="FeatureAssetEditor">
+  {{> quickForm collection="ARML.data.featureassets" doc=this id=this._id type="update" fields="name, position, rotation, scale"}}
+  {{#quickRemoveButton collection="ARML.data.featureassets" _id=this._id class="btn btn-danger"}}
+  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete{{/quickRemoveButton}}
+</template>
+
+<template name="AnnotationListItem">
+  <a href="#" data-id={{_id}} class="list-group-item activeAnnotationSelector {{#if active}}active{{/if}}">
+    {{number}}. {{name}}
+    {{#quickRemoveButton collection="ARML.data.annotations" _id=this._id class="btn-danger btn-xs pull-right"}}
+  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete{{/quickRemoveButton}}</a>
+</template>
+
+<template name="AnnotationEditor">
+  <b>{{number}}</b>
+  {{> quickForm collection="ARML.data.annotations" doc=this id=this._id type="update" fields="name, description, tags, position"}}
+  {{#quickRemoveButton collection="ARML.data.annotations" _id=this._id class="btn btn-danger"}}
+  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete{{/quickRemoveButton}}
+</template>
+
+<template name="CreateFeatureAsset">
+  {{#autoForm schema=featureAssetAutoformSchema doc=this id="featureAssetAutoform" type="method" meteormethod="insertFeatureAsset"}}
+  <fieldset>
+    <legend>Add new</legend>
+    {{> afQuickField name="feature"}}
+    {{> afQuickField name="asset" options=assets}}
+    <div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </fieldset>
+  {{/autoForm}}
+</template>

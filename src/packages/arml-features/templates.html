@@ -1,0 +1,70 @@
+<template name="FeatureGridView">
+  <div class="row">
+    <div class="col-md-11">
+      <legend>Features</legend>
+    </div>
+    <div class="col-md-1">
+      <div class="btn-toolbar pull-right" role="group">
+        <div class="btn-group" role="group">
+          <a class="btn btn-primary" href="/features/create">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create</a>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="row">
+      {{#each features }}
+        {{> FeatureGridCell}}
+      {{/each }}
+    </div>
+</template>
+
+<template name="FeatureGridCell">
+  <div class="col-lg-3 col-md-4 col-xs-6 gridcell">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{name}}</h3>
+        </div>
+        <div class="panel-body">
+          {{description}}
+        </div>
+        <div class="panel-footer">
+          <div class="btn-toolbar" role="group">
+            <div class="btn-group" role="group">
+              <a class="btn btn-primary" href="/features/{{_id}}/edit">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
+              <a class="btn btn-primary" href="/translations/feature/{{_id}}">
+                <span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Translate</a>
+              {{#quickRemoveButton collection="ARML.data.features" _id=this._id class="btn btn-danger"}}
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete{{/quickRemoveButton}}
+            </div>
+            <div class="btn-group" role="group">
+              <a class="btn btn-success" href="/features/{{_id}}/build">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Build</a>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</template>
+
+<template name="UpdateFeature">
+  {{> quickForm collection="ARML.data.features" doc=this id="updateFeatureForm" type="update"}}
+</template>
+
+<template name="InsertFeatureView">
+  {{#autoForm schema=InsertFeatureSchema id="insertFeatureForm" type="method" meteormethod="featureCustomInsert"}}
+    <fieldset>
+      <legend>Lisää uusi sisältö</legend>
+      {{> afQuickField name='name'}}
+      {{> afQuickField name='description'}}
+      {{> afQuickField name='tags'}}
+      {{> afQuickField name='target'}}
+      {{> afQuickField name='anchor'}}
+      {{> afQuickField name='geolocation'}}
+      {{> afQuickField name='zoneid'}}
+      {{> afQuickField name='enabled'}}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Lisää</button>
+  {{/autoForm}}
+</template>
